@@ -73,7 +73,7 @@ function Gameboard() {
         board[i] = [];
         for(j = 0; j < columns; j++) {
             let cell = Cell();
-            board[i][j] = Cell();
+            board[i][j] = cell;
             cell.setLocation(i, j);
         }
     }
@@ -83,16 +83,20 @@ function Gameboard() {
     }
 
     function updateBoard(location, player) {
-        board[location[0]][location[1]].setValue(player.value);
+        if(board[location[0]][location[2]].getValue() != '') {
+            return false;
+        }
+        board[location[0]][location[2]].setValue(player.value);
+        return true;
     }
 
     function eraseBoard() {
         for(row of board) {
             for(cell of row) {
-                cell.setValue(0);
-                cell.value = 0;
+                cell.setValue('');
             }
         }
+        return board;
     }
 
     function printBoard() {
@@ -116,14 +120,14 @@ function Cell() {
     }
 
     function setLocation(x, y) {
-        location.push(location)
+        location.push(x, y)
     }
 
     function getLocation() {
         return location;
     }
 
-    return {setValue, getValue, setLocation, getLocation, location};
+    return {setValue, getValue, setLocation, getLocation};
 }
 
 function GameController() {
@@ -158,13 +162,20 @@ function GameController() {
     }
 
     function playRound(location) {
+        let currPlayer = getActivePlayer();
         if(checkWinner()) {
             return checkWinner();
         }
-        board.updateBoard(location, getActivePlayer());
-        console.log(board.printBoard());
+        board.updateBoard(location, currPlayer)
         switchActivePlayer();
+
+        console.log(board.printBoard());
         printRound();
+    }
+
+    function resetBoard() {
+        board.eraseBoard();
+        activePlayer = (activePlayer === players[0]) ? players[0] : players[0];
     }
 
     function checkWinner() {
@@ -208,7 +219,7 @@ function GameController() {
                 winner = playerTwo;
             }
             threeInColumnX = 0;
-            threeInColumnX = 0;
+            threeInColumnO = 0;
 
             for(row of board.getBoard()) {
                 if (row[i].getValue() === 'X') {
@@ -237,6 +248,21 @@ function GameController() {
             return winner;
         }
 
+        // check draw
+        let totalSpots = 9;
+
+        for(row of board.getBoard()) {
+            for(cell of row) {
+                if(cell.getValue() != '') {
+                    totalSpots--;
+                }
+            }
+        }
+
+        if(totalSpots === 0) {
+            winner = 'TIE';
+        }
+
         if (winner) {
             declareWinner(winner);
         }
@@ -245,10 +271,86 @@ function GameController() {
     }
 
     function declareWinner(player) {
-        console.log(player + ' has won!')
+        let gameboard = document.querySelector('.gameboard');
+        let turn = document.querySelector('.turn');
+        if(player === 'TIE') {
+            turn.textContent = (player);
+            gameboard.removeEventListener('click', clickHandler);
+        }
+        if(player) {
+            turn.textContent = (player + ' has won!');
+            gameboard.removeEventListener('click', clickHandler);
+        }
     }
 
     printRound();
-    return {playRound, getActivePlayer};
+    return {playRound, getActivePlayer, getBoard: board.getBoard(), resetBoard};
 }
 
+function ScreenController() {
+    let gameController = GameController();
+
+    // initialize dom elements
+    let reset = document.querySelector('.reset');
+    let turn = document.querySelector('.turn');
+    let gameboard = document.querySelector('.gameboard');
+
+    function updateScreen() {
+        // erase screen
+        while(gameboard.firstChild) {
+            gameboard.removeChild(gameboard.firstChild);
+        }
+        // get game information
+        let board = gameController.getBoard;
+        let activePlayer = gameController.getActivePlayer();
+
+        // render turn/win information
+        turn.textContent = activePlayer.name + "'s turn"
+
+        // print to screen
+        for(row of board) {
+            for(cell of row) {
+                let currCell = document.createElement('div');
+                currCell.classList.add('cell');
+                currCell.textContent = cell.getValue();
+                currCell.dataset.location = cell.getLocation();
+                // add class for color marker
+                if(cell.getValue() === 'X') {
+                    currCell.classList.add('X');
+                } else if(cell.getValue() === 'O') {
+                    currCell.classList.add('O');
+                }
+
+                gameboard.appendChild(currCell);
+            }
+        }
+    }
+
+    function clickHandler(e) {
+        // click target
+        let clickTarget = e.target;
+        let location = clickTarget.dataset.location;
+
+        // board
+        let board = gameController.getBoard;
+        // check if valid target or reset
+        if(clickTarget.className === 'reset') {
+            gameController.resetBoard();
+            updateScreen();
+            return;
+        } else if(clickTarget.className != 'cell') {
+            return;
+        }
+        // update screen
+        gameController.playRound(location);
+        updateScreen();
+    }
+
+    gameboard.addEventListener('click', clickHandler);
+    reset.addEventListener('click', clickHandler);
+
+    // initial render
+    updateScreen();
+}
+
+ScreenController();

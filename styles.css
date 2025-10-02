@@ -54,3 +54,75 @@ h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;  
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 10vh;
+  padding: 3rem;
+
+  background-color: #C18C5D;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 32px;
+  
+  height: 90vh;
+  color: white;
+  background-color: #3C3744;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  place-items: center;
+  gap: 8px;
+
+  width: 500px;
+  height: 500px;
+  background-color: #3C3744;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 8px;
+
+  font-size: 4rem;
+
+  width: 100%;
+  height: 100%;
+  background-color: #E7AD99;
+}
+
+.reset {
+  border-radius: 4px;
+  border: none;
+
+  font-size: 1.5rem;
+
+  color: white;
+  background-color: #E7AD99;
+}
+
+.X {
+  color: #CE796B;
+}
+
+.O {
+  color: #495867;
+}
