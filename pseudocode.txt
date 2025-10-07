@@ -1,0 +1,85 @@
+HTML:
+<!--
+Structure
+div header
+    h1 title
+    button reset
+div content
+    div gameboard
+        div cell
+        div cell
+        div cell
+        div cell
+        div cell
+        div cell
+        div cell
+        div cell
+        div cell
+-->
+
+JAVASCRIPT:
+/* Pseudocode
+function Gameboard
+    const board = []
+    const rows = 3
+    const columns = 3
+
+    for i in 3
+        rows[i] = []
+        for j in 3
+            row[i][j] = [];
+
+    function getBoard
+        return board
+
+    function updateBoard(value)
+        cell empty?
+            cell.value = value;
+    function eraseBoard(board)
+        for cell in board
+            cell = []
+    function printBoard(board)
+        for i in rows
+            print row
+
+    return {getBoard, updateBoard, eraseBoard, printBoard};
+    
+
+function Cell
+    let value;
+    let location = [];
+    function setValue(value)
+        value = value
+
+    function getValue
+        return value
+    
+    function eraseCell
+        value = null
+
+    return {setValue, getValue, eraseCell};
+
+function GameController
+    let player1, player2
+    let board
+    let activePlayer
+
+    function playRound
+        eraseBoard()
+        board = getBoard()
+        printBoard(board)
+    
+    function checkWinner
+        threeInRow = 0
+        for i in row
+            threeInRow = 3 ? return player : continue
+            for j in column
+                if Cell.getValue != 0
+                    threeInRow++
+
+    function declareWinner(player)
+        print(player has won!)
+
+    function switchActivePlayer
+        activePlayer = player1 ? player2 : player1
+*/

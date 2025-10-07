@@ -1,21 +1,3 @@
-<!--
-Structure
-div header
-    h1 title
-    button reset
-div content
-    div gameboard
-        div cell
-        div cell
-        div cell
-        div cell
-        div cell
-        div cell
-        div cell
-        div cell
-        div cell
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,6 +25,32 @@ div content
             <div class="cell"></div>
             <div class="cell"></div>
         </div>
+    </div>
+
+    <div class="modal-overlay">
+        <dialog open class="modal">
+            <form action="" method="dialog">
+                <div class="form-container">
+                    <div class="form-top">
+                        <h1>Add Players</h1>
+                        <button class="close-form">x</button>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="form-control">
+                            <label for="player-one"></label>
+                            <input type="text" name="player-one" id="player-one">
+                            <span>Player One (X)</span>
+                        </div>
+                        <div class="form-control">
+                            <label for="player-two"></label>
+                            <input type="text" name="player-two" id="player-two">
+                            <span>Player Two (O)</span>
+                        </div>
+                        <button class="submit" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </dialog>
     </div>
 </body>
 </html>
