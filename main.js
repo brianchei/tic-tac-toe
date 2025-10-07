@@ -163,10 +163,11 @@ function GameController() {
                 gameOver = true;
                 return winner;
             } else if(threeInColumnO === 3) {
-                winner = players[0].name;
+                winner = players[1].name;
                 gameOver = true;
                 return winner;
             }
+
             threeInColumnX = 0;
             threeInColumnO = 0;
 
@@ -177,6 +178,16 @@ function GameController() {
                     threeInColumnO++;
                 }
             }
+        }
+
+        if(threeInColumnX === 3) {
+            winner = players[0].name;
+            gameOver = true;
+            return winner;
+        } else if(threeInColumnO === 3) {
+            winner = players[1].name;
+            gameOver = true;
+            return winner;
         }
 
         // check winner diagonally
